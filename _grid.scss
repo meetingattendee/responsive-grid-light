@@ -1,10 +1,9 @@
 /*****************************************
 CUSTOM SUPER LIGHTWEIGHT FLEX GRID MIXIN
 BUILT FOR EXTENDING
-https://github.com/pxlhero
 *****************************************/
 
-// @pxlhero
+// @pouya nafisi
 // quick function to convert px to rem 
 // you can change this include your body root font-size by default the browser font size is 16px
 @function calcrem($val, $root-px:16){
@@ -12,98 +11,95 @@ https://github.com/pxlhero
   @return $rem-val+rem;
 }
 
-// Define your breakpoint sizes
-$break--xs-min:   0;
-$break--xs-max:   575px;
 
-$break--sm-min:   ($break--xs-max+1);
-$break--sm-max:   767px;
-
-$break--md-min:   ($break--sm-max+1);
-$break--md-max:   991px;
-
-$break--lg-min:   ($break--md-max+1);
-$break--lg-max:   1199px;
-
-$break--xl-min:   ($break--lg-max+1);
-$break--xl-max:   1439px;
-
-$break--xxl-min:  ($break--xl-max+1);
-$break--xxl-max:  100%;
-
-
-// Define your config values
-$grid-vars: (
-  'prefix': 'grid', 
-  'columns': 12,
-  'gutters': 15,
-  'container': 100%,
-);
-
-$media-vars: (
-  'xs': $break--xs-min,
-  'sm': $break--sm-min,
-  'md': $break--md-min,
-  'lg': $break--lg-min,
-  'xl': $break--xl-min,
-  'xxl': $break--xxl-min,
-);
-
-/*******
-list config values
-*******/
-@each $key, $value in $grid-vars {
-  /* #{$key}: #{$value} */
+@function map-deep-get($map, $keys...) {
+    @each $key in $keys {
+        $map: map-get($map, $key);
+    }
+    @return $map;
 }
+
 
 /*** build out the grid structure ***/
 
-@each $key, $value in $media-vars {
-    @if $key!= 'xs' and $key!='xxl'{
-        @media screen and (max-width:($value - 1)) {
-                .#{map-get($grid-vars, prefix)}-container {
-                     width: ($value - 1);
-                }      
-        }
-      } 
-}
+@mixin buildout-rgl($config: 'default'){
 
-.#{map-get($grid-vars, prefix)}-row{ 
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    margin-right: -+calcrem(map-get($grid-vars, gutters));
-    margin-left: -+calcrem(map-get($grid-vars, gutters));
-}
+  @if $config == 'default'{
+    $config: (
+      'prefix': 'grid',
+      'columns': 12,
+      'gutters': 30,
+      'container': 100%,
+      'media-vars': (
+          'xs': 0,
+          'sm': 576,
+          'md': 768,
+          'lg': 992,
+          'xl': 1200,
+          'xxl': 1440,
+        )
 
-.#{map-get($grid-vars, prefix)} {
+    );
+  }
 
-    position: relative;
-    width: 100%;
-    min-height: 1px;
-    padding-right: calcrem(map-get($grid-vars, gutters));
-    padding-left: calcrem(map-get($grid-vars, gutters));
-}
+  /*******
+  grid vars for SDS
+  *******/
+  @each $key, $value in $config {
+    /* #{$key}: #{$value} */
+  }
 
 
-@each $key, $value in $media-vars {
 
-    @if $key!= 'xs' {
-        @media screen and (min-width:($value)) {
-          @for $col from 1 through map-get($grid-vars, columns) {
-            .#{map-get($grid-vars, prefix)}-#{$key}-#{$col} {
+  @each $key, $value in map-deep-get($config, "media-vars") {
+      @if $key!= 'xs' and $key!='xxl'{
+            @media screen and (max-width:($value - 1)+px) { 
+                  .#{map-get($config, prefix)}-container {
+                       width: ($value - 1);
+                  }      
+           }
+        } 
+  }
+
+  .#{map-get($config, prefix)}-row{ 
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+      margin-right: -+calcrem(map-get($config, gutters));
+      margin-left: -+calcrem(map-get($config, gutters));
+  }
+
+  .#{map-get($config, prefix)} {
+
+      position: relative;
+      width: 100%;
+      min-height: 1px;
+      padding-right: calcrem(map-get($config, gutters));
+      padding-left: calcrem(map-get($config, gutters));
+  }
+
+
+  @each $key, $value in map-deep-get($config, "media-vars") {
+
+      @if $key!= 'xs' {
+          @media screen and (min-width:($value)+px) {
+            @for $col from 1 through map-get($config, columns) {
+              .#{map-get($config, prefix)}-#{$key}-#{$col} {
+                   width: (100/12*$col)+%;
+
+              }
+            }
+          }
+       } @else{
+          @for $col from 1 through map-get($config, columns) {
+            .#{map-get($config, prefix)}-#{$key}-#{$col} {
                  width: (100/12*$col)+%;
 
             }
           }
-        }
-     } @else{
-        @for $col from 1 through map-get($grid-vars, columns) {
-          .#{map-get($grid-vars, prefix)}-#{$key}-#{$col} {
-               width: (100/12*$col)+%;
-
-          }
-        }
-    }
+      }
+  }
 }
+
+

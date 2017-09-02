@@ -8,34 +8,20 @@ The goal with this was to keep something super simple and lightweight so that I 
 
 
 ## Getting started
-coming soon
 
-### Defining your breakpoints
-
-Using the variables below define your breakpoints. these breakpoints take into account a wide range of screensizes but you can change it and extend it as needed.
-
+1. Add RGL as a dependency:
+```
+npm install responsive-grid-light --save-dev
 ```
 
-// Define your breakpoint sizes
-$break--xs-min:   0;
-$break--xs-max:   575px;
+2. Import RGL your into your Sass files:
+```
+@import "~responsive-grid-light/grid";
+```
 
-$break--sm-min:   ($break--xs-max+1);
-$break--sm-max:   767px;
-
-$break--md-min:   ($break--sm-max+1);
-$break--md-max:   991px;
-
-$break--lg-min:   ($break--md-max+1);
-$break--lg-max:   1199px;
-
-$break--xl-min:   ($break--lg-max+1);
-$break--xl-max:   1439px;
-
-$break--xxl-min:  ($break--xl-max+1);
-$break--xxl-max:  100%;
-
-
+3. Initilzie the the RGL mixin:
+```
+@include buildout-rgl(); 
 ```
 
 ### Setting your config values
@@ -43,16 +29,37 @@ $break--xxl-max:  100%;
 You can define your project specific configs here.
 
 ```
+//Defaults
 
-// Define your config values
-$grid-vars: (
-  'prefix': 'grid', // class prefix
-  'columns': 12, // number of columns
+$config: (
+  'prefix': 'grid',  // class prefix
+  'columns': 6, // number of columns
   'gutters': 15, // gutter width
-  'container': 100%, // container fluid or sized
+  'container': 100%,
+  'media-vars': ( // media variables for different screensizes
+      'xs': 0,
+      'sm': 576,
+      'md': 768,
+      'lg': 992,
+      'xl': 1200,
+      'xxl': 1440,
+    )
+
 );
 
+@include buildout-rgl($config); 
 ```
+
+
+| Options       | Description   |
+| ------------- |:-------------:|
+| prefix        | set custom class prefix here |
+| columns      	| tnumber of columns to create |
+| gutters 		| gutter widths    |
+| container     | container width  / fixed or fluid|
+| media-vars    | define all various brealpoints (using min-wdith)    |
+
+
 
 ### rem function()
 
