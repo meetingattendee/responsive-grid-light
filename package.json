@@ -1,6 +1,6 @@
 {
-  "name": "responsive-grid-light",
-  "version": "1.0.0",
+  "name": "rgl",
+  "version": "1.0.1",
   "description": "super lightweight responsive grid mixin",
   "main": "index.js",
   "scripts": {
@@ -11,14 +11,16 @@
     "url": "git+https://github.com/pxlhero/responsive-grid-light.git"
   },
   "keywords": [
-    "sass",
-    "scss",
+    "rgl",
+    "sass grid",
+    "sass grid light",
+    "scss grid light",
+    "scss grid",
     "grid",
-    "responsive",
+    "responsive-grid-light",
     "grid",
-    "grid",
-    "mixin",
-    "lightweight"
+    "sass grid mixin",
+    "lightweight grid mixin"
   ],
   "author": "@pxlhero",
   "license": "ISC",

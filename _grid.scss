@@ -32,11 +32,11 @@ BUILT FOR EXTENDING
       'container': 100%,
       'media-vars': (
           'xs': 0,
-          'sm': 576,
-          'md': 768,
-          'lg': 992,
-          'xl': 1200,
-          'xxl': 1440,
+          'sm': 576px,
+          'md': 768px,
+          'lg': 992px,
+          'xl': 1200px,
+          'xxl': 1440px,
         )
 
     );
@@ -53,7 +53,7 @@ BUILT FOR EXTENDING
 
   @each $key, $value in map-deep-get($config, "media-vars") {
       @if $key!= 'xs' and $key!='xxl'{
-            @media screen and (max-width:($value - 1)+px) { 
+            @media screen and (max-width:($value - 1)) { 
                   .#{map-get($config, prefix)}-container {
                        width: ($value - 1);
                   }      
@@ -83,7 +83,7 @@ BUILT FOR EXTENDING
   @each $key, $value in map-deep-get($config, "media-vars") {
 
       @if $key!= 'xs' {
-          @media screen and (min-width:($value)+px) {
+          @media screen and (min-width:($value)) {
             @for $col from 1 through map-get($config, columns) {
               .#{map-get($config, prefix)}-#{$key}-#{$col} {
                    width: (100/12*$col)+%;
